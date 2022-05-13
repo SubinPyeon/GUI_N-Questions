@@ -4,7 +4,7 @@ from tkinter import messagebox
 
 #창 생성하기
 root = Tk() 
-root.geometry("600x400")
+root.geometry("600x500")
 root.title("열고개 수수께끼")
 root.option_add("*Font","맑은고딕25")
 root.resizable(False, False)
@@ -28,6 +28,8 @@ pdcheck=0
 
 #아이디 중복 확인
 def twiceCheck(isidexist):
+    global idcheck
+    
     f=open('first.txt','r')
     l=f.readline()
     flag=0
@@ -38,16 +40,18 @@ def twiceCheck(isidexist):
         if(a==isidexist):
             messagebox.showinfo('아이디 중복 확인','{}는 사용할 수 없는 아이디입니다.'.format(isidexist))
             flag=1
-            idcheck=1
             break
           
     if(flag==0):
+        idcheck=1
         messagebox.showinfo('아이디 중복 확인','{}는 사용할 수 있는 아이디입니다.'.format(isidexist))
     f.close()
 
 
 #비밀번호 중복 확인
 def pdSame(a,b):
+    global pdcheck
+    
     if a==b:
         pdcheck=1
         messagebox.showinfo('비밀번호 일치 확인','비밀번호가 일치합니다.')
@@ -185,10 +189,10 @@ twicepd.pack()
 #아이디 중복체크, 비밀번호 일치까지 했을 때 생성하기 > 메시지 박스 함수 만들기
 prod = Button(frame2)
 prod.config(text = "생성하기")
-if(idcheck==1)&(pdcheck==1):
+prod.pack()
+if(idcheck==1)and(pdcheck==1):
     prod.config(command=lambda:[a_member(idlt.get(), pdt2.get())])
     openFrame(frame3)
-prod.pack()
 
 
 
