@@ -1,5 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
+import sys
+
 
 #창 생성하기
 root = Tk() 
@@ -13,19 +15,21 @@ def openFrame(frame):
     frame.tkraise()
 
 
-#아이디 중복확인 > 아 isExist()랑 똑같은 오류 나옴 개짱
+#아이디 중복확인
 def twiceCheck(isidexist):
-    f=open('Reposit.txt','r')
+    f=open('first.txt','r')
     l=f.readline()
     flag=0
     
     while l:
         a,b=l.split(' ')
+        l=f.readline()
         if(a==isidexist):
             messagebox.showinfo('아이디 중복 확인','{}는 사용할 수 없는 아이디입니다.'.format(isidexist))
             flag=1
             break
-        l=f.readline()
+        
+        
     if(flag==0):
         messagebox.showinfo('아이디 중복 확인','{}는 사용할 수 있는 아이디입니다.'.format(isidexist))
         
@@ -37,14 +41,15 @@ def pdSame(a,b):
     else:
         messagebox.showinfo('비밀번호 일치 확인','비밀번호가 일치하지 않습니다.')
 
-#로그인 화면에서 아이디, 비밀번호 찾는 함수만들기 >> 아 오류 쩔어 ㅋ 
+#로그인 화면에서 아이디, 비밀번호 찾는 함수만들기
 def isExist(id_one, pd_one):
-    f=open('Reposit.txt','r')
+    f=open('first.txt','r')
     l = f.readline()
     k=0
     
     while l:
-        idcheck, pdcheck=l.split(' ')
+        idcheck, pdcheck=l.split(' ',2)
+        l=f.readline()
         
         if (idcheck==id_one):
             if(pdcheck==pd_one):
@@ -55,7 +60,7 @@ def isExist(id_one, pd_one):
                 k=1
                 messagebox.showinfo('로그인 오류', '아이디 또는 비밀번호가 일치하지 않습니다.')
                 break
-        l=f.readline()
+       
         
     if k==0:
         messagebox.showinfo('로그인 오류', '아이디 또는 비밀번호가 일치하지 않습니다.')
