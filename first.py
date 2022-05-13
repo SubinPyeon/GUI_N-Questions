@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 
 #창 생성하기
 root = Tk() 
@@ -10,7 +11,20 @@ root.resizable(False, False)
 #프레임 전환하기
 def openFrame(frame):
     frame.tkraise()
+#아이디 중복확인 > 파일 관리와 더불어서 조금 더 뒤에 수정해야함
+#사용할 수 없는 아이디입니다. 해당 객체 넣어서 if문으로 추가하기
+def twiceCheck():
+    messagebox.showinfo('아이디 중복 확인','사용가능한 id입니다.')
 
+#비밀번호 중복 함수만들기
+def pdSame(a,b):
+    if a==b:
+        openFrame(frame3)
+    else:
+        messagebox.showinfo('비밀번호 일치 확인','비밀번호가 일치하지 않습니다.')
+
+
+    
 #화면 프레임 만들기
 frame1 = Frame(root)
 #frame1.pack(expand = True, anchor="center") #아 프레임 이쁘게 하고 싶은데 방법 찾기
@@ -19,6 +33,8 @@ frame1.grid(row=0, column=0, sticky="nsew")
 frame2 = Frame(root)
 frame2.grid(row=0, column=0, sticky="nsew")
 
+frame3 = Frame(root)
+frame3.grid(row=0, column=0, sticky="nsew")
 #레이블 만들기
 tl = Label(frame1)
 tl.config(text="으쌰 열고개")
@@ -64,14 +80,6 @@ gol.place(x=100, y=300)
 gol.pack()
 
 
-#로그인 만들기
-logl = Button(frame1)
-logl.config(text= "로그인")
-#logl.config(command = loginpress)
-logl.place(x=350, y=300)
-logl.pack()
-
-
 
 
 #여기서부터 2번째 회원가입 화면만들기
@@ -95,10 +103,11 @@ idl2.pack()
 idlt = Entry(frame2)
 idlt.place(x=230, y=150)
 idlt.pack()
-
+#아이디 중복확인 버튼 
 twicet = Button(frame2)
-twicet.config(text = "V")
+twicet.config(text = "ID 중복확인", command=lambda:[twiceCheck()])
 twicet.place(x=300, y=150)
+twicet.pack()
 
 pd2 = Label(frame2)
 pd2.config(text="비밀번호")
@@ -117,7 +126,9 @@ pdte.place(x=230, y=250)
 pdte.pack()
 
 prod = Button(frame2)
-prod.config(text = "생성하기")
+prod.config(text = "생성하기", command=lambda:[pdSame(pdt2.get(), pdte.get())])
+prod.pack()
+
 
 
 openFrame(frame1)
