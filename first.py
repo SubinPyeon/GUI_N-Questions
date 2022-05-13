@@ -23,6 +23,30 @@ def pdSame(a,b):
     else:
         messagebox.showinfo('비밀번호 일치 확인','비밀번호가 일치하지 않습니다.')
 
+#로그인 화면에서 아이디, 비밀번호 찾는 함수만들기
+def isExist(id_one, pd_one):
+    f=open('Reposit.txt','r')
+    l = f.readline()
+    k=0
+
+    while l:
+        idcheck, pdcheck=l.split(' ')
+        if (idcheck==id_one):
+            if(pdcheck==pd_one):
+                k=1
+                openFrame(frame3)
+                break
+            else:
+                k=1
+                messagebox.showinfo('로그인 오류', '아이디 또는 비밀번호가 일치하지 않습니다.')
+                break
+        l=f.readline()
+        
+    if k==0:
+        messagebox.showinfo('로그인 오류', '아이디 또는 비밀번호가 일치하지 않습니다.')
+        
+    
+
 
     
 #화면 프레임 만들기
@@ -66,7 +90,7 @@ pdt.pack()
 #시작칸 만들기 > 이후에 이벤트 처리해서 클릭, 엔터 두개 처리해야 함
 '''btnpress가 btnpress() 함수 호출하는 것'''
 stl = Button(frame1)
-stl.config(text = "시작해볼까요?")
+stl.config(text = "시작해볼까요?", command=lambda:[isExist(idt.get(), pdt.get())])
 stl.config(width = 20)
 #stl.config(command = btnpress)
 stl.place(x=170, y=200)
@@ -104,10 +128,10 @@ idlt = Entry(frame2)
 idlt.place(x=230, y=150)
 idlt.pack()
 #아이디 중복확인 버튼 
-twicet = Button(frame2)
-twicet.config(text = "ID 중복확인", command=lambda:[twiceCheck()])
-twicet.place(x=300, y=150)
-twicet.pack()
+twiceid = Button(frame2)
+twiceid.config(text = "ID 중복확인", command=lambda:[twiceCheck()])
+twiceid.place(x=300, y=150)
+twiceid.pack()
 
 pd2 = Label(frame2)
 pd2.config(text="비밀번호")
@@ -125,8 +149,15 @@ pdte = Entry(frame2)
 pdte.place(x=230, y=250)
 pdte.pack()
 
+#비번 일치확인 버튼 
+twicepd = Button(frame2)
+twicepd.config(text = "비밀번호 일치 확인", command=lambda:[pdSame(pdt2.get(), pdte.get())])
+twicepd.place(x=300, y=150)
+twicepd.pack()
+
+#아이디 중복체크, 비밀번호 일치까지 했을 때 생성하기 > 메시지 박스 함수 만들기
 prod = Button(frame2)
-prod.config(text = "생성하기", command=lambda:[pdSame(pdt2.get(), pdte.get())])
+prod.config(text = "생성하기")
 prod.pack()
 
 
