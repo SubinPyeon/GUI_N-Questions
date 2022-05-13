@@ -11,10 +11,24 @@ root.resizable(False, False)
 #프레임 전환하기
 def openFrame(frame):
     frame.tkraise()
-#아이디 중복확인 > 파일 관리와 더불어서 조금 더 뒤에 수정해야함
-#사용할 수 없는 아이디입니다. 해당 객체 넣어서 if문으로 추가하기
-def twiceCheck():
-    messagebox.showinfo('아이디 중복 확인','사용가능한 id입니다.')
+
+
+#아이디 중복확인 > 아 isExist()랑 똑같은 오류 나옴 개짱
+def twiceCheck(isidexist):
+    f=open('Reposit.txt','r')
+    l=f.readline()
+    flag=0
+    
+    while l:
+        a,b=l.split(' ')
+        if(a==isidexist):
+            messagebox.showinfo('아이디 중복 확인','{}는 사용할 수 없는 아이디입니다.'.format(isidexist))
+            flag=1
+            break
+        l=f.readline()
+    if(flag==0):
+        messagebox.showinfo('아이디 중복 확인','{}는 사용할 수 있는 아이디입니다.'.format(isidexist))
+        
 
 #비밀번호 중복 함수만들기
 def pdSame(a,b):
@@ -23,14 +37,15 @@ def pdSame(a,b):
     else:
         messagebox.showinfo('비밀번호 일치 확인','비밀번호가 일치하지 않습니다.')
 
-#로그인 화면에서 아이디, 비밀번호 찾는 함수만들기
+#로그인 화면에서 아이디, 비밀번호 찾는 함수만들기 >> 아 오류 쩔어 ㅋ 
 def isExist(id_one, pd_one):
     f=open('Reposit.txt','r')
     l = f.readline()
     k=0
-
+    
     while l:
         idcheck, pdcheck=l.split(' ')
+        
         if (idcheck==id_one):
             if(pdcheck==pd_one):
                 k=1
@@ -65,7 +80,7 @@ tl.config(text="으쌰 열고개")
 tl.place(x=230, y=20)
 tl.pack()
 
-#id만드는 칸
+#id 칸
 idl = Label(frame1)
 idl.config(text="아이디")
 idl.place(x=100, y=100)
@@ -76,7 +91,7 @@ idt.place(x=230, y=100)
 idt.pack()
 
 
-#비밀번호 만드는 칸
+#비밀번호 칸
 pd = Label(frame1)
 pd.config(text="비밀번호")
 pd.place(x=100, y = 150)
@@ -129,7 +144,7 @@ idlt.place(x=230, y=150)
 idlt.pack()
 #아이디 중복확인 버튼 
 twiceid = Button(frame2)
-twiceid.config(text = "ID 중복확인", command=lambda:[twiceCheck()])
+twiceid.config(text = "ID 중복확인", command=lambda:[twiceCheck(idlt.get())])
 twiceid.place(x=300, y=150)
 twiceid.pack()
 
