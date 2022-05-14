@@ -17,10 +17,17 @@ def openFrame(frame):
 
 
 #아이디, 비밀번호 파일에 추가하기
-def a_member(m_id, m_pd):
-    f=open('first.txt','a+')
-    f.write('{} {}\n'.format(m_id, m_pd))
-    f.close()
+def a_member(idcheck, pdcheck, m_id, m_pd):
+    if(idcheck==1) and(pdcheck==1):
+        f=open('first.txt','a+')
+        f.write('{} {}\n'.format(m_id, m_pd))
+        f.close()
+        openFrame(frame3)
+    elif(idcheck==1) and (pdcheck!=1):
+        prod.config(command=lambda:[messagebox.showinfo('회원가입 오류','비밀번호 일치 여부를 확인해주세요.')])
+    else:
+        prod.config(command=lambda:[messagebox.showinfo('회원가입 오류','{}//{}아이디 중복체크를 눌러주세요.'.format(idcheck, pdcheck))])
+        
 
 
 #id와 password가 완벽히 조건 수행했을 때 flag를 각각 idcheck, pdcheck로 전역변수를 둔다
@@ -37,7 +44,7 @@ def twiceCheck(isidexist):
     flag=0
     
     while l:
-        a,b=l.split(' ')
+        a,b=l.split()
         l=f.readline()
         if(a==isidexist):
             messagebox.showinfo('아이디 중복 확인','{}는 사용할 수 없는 아이디입니다.'.format(isidexist))
@@ -68,11 +75,10 @@ def isExist(id_one, pd_one):
     k=0
     
     while l:
-        a, b=l.split(' ')
-        l=f.readline()
-        
-        if (a==id_one):
-            if(b==pd_one):
+        mem_id, mem_pd=l.split()
+          
+        if (mem_id==id_one):
+            if(mem_pd==pd_one):
                 k=1
                 openFrame(frame3)
                 break
@@ -80,7 +86,7 @@ def isExist(id_one, pd_one):
                 k=1
                 messagebox.showinfo('로그인 오류', '아이디 또는 비밀번호가 일치하지 않습니다.')
                 break
-       
+        l=f.readline()
         
     if k==0:
         messagebox.showinfo('로그인 오류', '아이디 또는 비밀번호가 일치하지 않습니다.')
@@ -97,7 +103,7 @@ frame2 = Frame(root) #회원가입 화면
 frame2.grid(row=0, column=0, sticky=W+E+N+S)
 
 frame3 = Frame(root) #퀴즈 화면
-frame3.grid(row=0, column=0,rowspan=4, columnspan=4, sticky=W+E+N+S)
+frame3.grid(row=0, column=0, sticky=W+E+N+S)
 
 
 #frame1 >> 첫 화면 만들기
@@ -192,10 +198,7 @@ gohome.place(x=150, y=350)
 prod = Button(frame2)
 prod.config(text = "생성하기", font=('맑은 고딕', 13))
 prod.place(x=240,y=280)
-if(idcheck==1)and(pdcheck==1):
-    prod.config(command=lambda:[a_member(idlt.get(), pdt2.get())])
-    openFrame(frame3)
-
+prod.config(command=lambda:[a_member(idcheck, pdcheck, idlt.get(), pdt2.get())])
 
 
 openFrame(frame1)
