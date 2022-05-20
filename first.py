@@ -219,6 +219,27 @@ prod.config(command=lambda:[a_member(idcheck, pdcheck, idlt.get(), pdt2.get())])
 
 
 #frame3>> 3번째 주제 선택 화면 만들기
+
+#주제 선택 시 랜덤으로 파일 불러오는 명령어
+#for문 돌리면서 if button click이면 해당 함수 실행
+
+from random import randint
+
+global answer
+answer=''
+global hint
+hint=[0,]
+
+def open_randfile(number):
+    n=randint(number*4+1, (number+1)*4)
+    name=str(n)+'.txt' #해당 번호 클릭하면 해당 주제에 맞는 4개의 파일 중 랜덤으로 하나 실행
+    fi=open(name, 'r', encoding='UTF8')
+    answer=fi.readline()
+    for i in range(1,11):
+        hint.append(fi.readline())
+    openFrame(frame4)
+    
+
 f3l = Label(frame3,text = "주제를 선택하세요",font =('맑은 고딕', 18,'bold'),bg = "forestgreen",fg='white')
 f3l.pack(pady=40)
 frame3_1 = Frame(frame3) #주제 선택 화면
@@ -236,11 +257,14 @@ num=1
 for i in range(2):
     for j in range(2):
         btn_subj[num].grid(row=i,column=j,padx=15,pady=15)
-        btn_subj[num].config(command=lambda:[openFrame(frame4)]) # 어떤 버튼이던지 클릭되면 다음 화면으로 넘어감.
         num+=1
 
-
-
+#이거 for문으로 넣어봤는데 계속.. 이상하게 나옵니다 왜일까요 일단 그래서 노가다로 넣었습니다
+#각 버튼을 클릭했을 때 open_randfile 함수 실행되도록 하기
+btn_subj[1].config(command=lambda:[open_randfile(0)])
+btn_subj[2].config(command=lambda:[open_randfile(1)])
+btn_subj[3].config(command=lambda:[open_randfile(2)])
+btn_subj[4].config(command=lambda:[open_randfile(3)])
 
 #frame4>> 4번째 퀴즈 진행 화면 만들기
 f4l = Label(frame4,text = "힌트",font =('맑은 고딕', 18,'bold'), fg ="white",bg = "forestgreen")
@@ -281,7 +305,36 @@ btn_ans.grid(row=0, column=2)
 
 
 
+#힌트 확인하기
+#새로 생성 안하면 힌트 길이따라서 윗쪽 줄 친구들이 계속 움직임
+#디자인을 위해.. 힌트칸 넣을 프레임을 새로 생성
+frame4_3 = Frame(frame4) 
+frame4_3.pack(anchor="center", pady=10)
+
+hint_1=Label(frame4_3, text="힌트 내용", font=('맑은 고딕',12))
+hint_1.grid(row=0, column=0)
+
+#X표시 확실하게 보였으면 싶어서 bd를 없앴음
+#너비랑 높이 변화 최대한 없게 하는 값 넣음
+def button_hint(number):
+    s=hint[number]
+    btn_hint[number].configure(text='X', state='disable', width=10, bd=0, height=2)
+    hint_1.configure(text=s)
+
+#얘도 for문으로 넣어봤는데 계속.. 이상하게 나옵니다..... 깔끔하게 적고싶은디..
+#변수문제인듯합니다 for문 돌리면 숫자 하나에만 적용되네요..
+btn_hint[1].config(command=lambda:[button_hint(1)])
+btn_hint[2].config(command=lambda:[button_hint(2)])
+btn_hint[3].config(command=lambda:[button_hint(3)])
+btn_hint[4].config(command=lambda:[button_hint(4)])
+btn_hint[5].config(command=lambda:[button_hint(5)])
+btn_hint[6].config(command=lambda:[button_hint(6)])
+btn_hint[7].config(command=lambda:[button_hint(7)])
+btn_hint[8].config(command=lambda:[button_hint(8)])
+btn_hint[9].config(command=lambda:[button_hint(9)])
+btn_hint[10].config(command=lambda:[button_hint(10)])
 
 
 openFrame(frame1)
 root.mainloop()
+
