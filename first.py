@@ -27,7 +27,7 @@ def a_member(idcheck, pdcheck, m_id, m_pd):
     elif(idcheck==1) and (pdcheck!=1):
         prod.config(command=lambda:[messagebox.showinfo('회원가입 오류','비밀번호 일치 여부를 확인해주세요.')])
     else:
-        prod.config(command=lambda:[messagebox.showinfo('회원가입 오류','{}//{}아이디 중복체크를 눌러주세요.'.format(idcheck, pdcheck))])
+        prod.config(command=lambda:[messagebox.showinfo('회원가입 오류','아이디 중복체크를 눌러주세요.')])
         
 
 #id와 password가 완벽히 조건 수행했을 때 flag를 각각 idcheck, pdcheck로 전역변수를 둔다
