@@ -16,19 +16,17 @@ root.resizable(False, False)
 def openFrame(frame):
     frame.tkraise()
 
-
-#아이디, 비밀번호 파일에 추가하기
-def a_member(idcheck, pdcheck, m_id, m_pd):
-    if(idcheck==1) and(pdcheck==1):
-        f=open('first.txt','a+')
-        f.write('{} {}\n'.format(m_id, m_pd))
-        f.close()
-        openFrame(frame3)
-    elif(idcheck==1) and (pdcheck!=1):
-        prod.config(command=lambda:[messagebox.showinfo('회원가입 오류','비밀번호 일치 여부를 확인해주세요.')])
-    else:
-        prod.config(command=lambda:[messagebox.showinfo('회원가입 오류','아이디 중복체크를 눌러주세요.')])
-        
+#게임 참여자 정보를 저장할 클래스
+class Member:
+    def __init__(self, id, score=0, time=0):
+        self.__id = id
+        self.__score = score
+        self.__time = time
+    def getInfo(self):
+        return self.__score, self.__time
+    def setInfo(self, score, time):
+        self.__score = score
+        self.__time = time
 
 #id와 password가 완벽히 조건 수행했을 때 flag를 각각 idcheck, pdcheck로 전역변수를 둔다
 idcheck=0
@@ -66,10 +64,34 @@ def pdSame(a,b):
         messagebox.showinfo('비밀번호 일치 확인','비밀번호가 일치합니다.')
     else:
         messagebox.showinfo('비밀번호 일치 확인','비밀번호가 일치하지 않습니다.')
+
+#Member 객체 생성
+mem = Member()
+
+#id와 password가 완벽히 조건 수행했을 때, Member 객체를 생성하기 위해 따로 저장하는 변수를 둔다.
+playingid = 0
+
+
+#아이디, 비밀번호 파일에 추가하기
+def a_member(idcheck, pdcheck, m_id, m_pd):
+    global playingid = 0
+    
+    if(idcheck==1) and(pdcheck==1):
+        playingid = m_id
+        f=open('first.txt','a+')
+        f.write('{} {}\n'.format(m_id, m_pd))
+        f.close()
+        openFrame(frame3)
+    elif(idcheck==1) and (pdcheck!=1):
+        prod.config(command=lambda:[messagebox.showinfo('회원가입 오류','비밀번호 일치 여부를 확인해주세요.')])
+    else:
+        prod.config(command=lambda:[messagebox.showinfo('회원가입 오류','아이디 중복체크를 눌러주세요.')])
         
 
 #로그인 화면에서 아이디, 비밀번호 확인
 def isExist(id_one, pd_one):
+    global playingid
+    
     f=open('first.txt','r')
     l = f.readline()
     k=0
@@ -80,6 +102,7 @@ def isExist(id_one, pd_one):
         if (mem_id==id_one):
             if(mem_pd==pd_one):
                 k=1
+                playingid = mem_id
                 openFrame(frame3)
                 break
             else:
