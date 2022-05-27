@@ -219,7 +219,6 @@ prod.config(command=lambda:[a_member(idcheck, pdcheck, idlt.get(), pdt2.get())])
 
 
 
-
 #frame3>> 3번째 주제 선택 화면 만들기
 
 #주제 선택 시 랜덤으로 파일 불러오는 명령어
@@ -315,11 +314,12 @@ frame4_3.pack(anchor="center", pady=10)
 hint_1=Label(frame4_3, text="힌트 내용", font=('맑은 고딕',12), bg = 'white')
 hint_1.grid(row=0, column=0)
 
+
 #X표시 확실하게 보였으면 싶어서 bd를 없앴음
 #너비랑 높이 변화 최대한 없게 하는 값 넣음
 def button_hint(number):
     s=hint[number]
-    btn_hint[number].configure(text='X', state='disable', width=10, bd=0, height=2, bg = 'white')
+    btn_hint[number].configure(text='X',font=('맑은 고딕',12), state='disable', width=8, bd=10, bg = 'black',disabledforeground='white')
     hint_1.configure(text=s)
 
 for i in range(1,11):
