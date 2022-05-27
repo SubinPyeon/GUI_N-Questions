@@ -18,8 +18,8 @@ def openFrame(frame):
 
 #게임 참여자 정보를 저장할 클래스
 class Member:
-    def __init__(self, id, score=0, time=0):
-        self.__id = id
+    def __init__(self, memId=None, score=0, time=0):
+        self.__memId = memId
         self.__score = score
         self.__time = time
     def getInfo(self):
@@ -42,7 +42,7 @@ def twiceCheck(isidexist):
     flag=0
     
     while l:
-        a,b=l.split()
+        a,b, c, d=l.split()
         l=f.readline()
         if(a==isidexist):
             messagebox.showinfo('아이디 중복 확인','{}는 사용할 수 없는 아이디입니다.'.format(isidexist))
@@ -74,7 +74,8 @@ playingid = 0
 
 #아이디, 비밀번호 파일에 추가하기
 def a_member(idcheck, pdcheck, m_id, m_pd):
-    global playingid = 0
+    global playingid
+    playingid= 0
     
     if(idcheck==1) and(pdcheck==1):
         playingid = m_id
@@ -97,7 +98,7 @@ def isExist(id_one, pd_one):
     k=0
     
     while l:
-        mem_id, mem_pd=l.split()
+        mem_id, mem_pd, score, time=l.split()
           
         if (mem_id==id_one):
             if(mem_pd==pd_one):
@@ -342,7 +343,7 @@ hint_1.grid(row=0, column=0)
 #너비랑 높이 변화 최대한 없게 하는 값 넣음
 def button_hint(number):
     s=hint[number]
-    btn_hint[number].configure(text='X',font=('맑은 고딕',12), state='disable', width=8, bd=10, bg = 'black',disabledforeground='white')
+    btn_hint[number].configure(text='X',font=('맑은 고딕',12), state='disable', width=8, bd=10, bg = '#A4A4A4',disabledforeground='white')
     hint_1.configure(text=s)
 
 for i in range(1,11):
