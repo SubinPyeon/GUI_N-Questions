@@ -111,6 +111,8 @@ frame4.grid(row=0, column=0, sticky=W+E+N+S)
 
 
 
+
+
 #frame1 >> 첫 화면 만들기
 #레이블 만들기
 tl = Label(frame1)
@@ -261,11 +263,14 @@ for i in range(2):
 
 #이거 for문으로 넣어봤는데 계속.. 이상하게 나옵니다 왜일까요 일단 그래서 노가다로 넣었습니다
 #각 버튼을 클릭했을 때 open_randfile 함수 실행되도록 하기
+for i in range(1,5):
+    btn_subj[i].config(command=lambda z=i:[open_randfile(z-1)])
+'''
 btn_subj[1].config(command=lambda:[open_randfile(0)])
 btn_subj[2].config(command=lambda:[open_randfile(1)])
 btn_subj[3].config(command=lambda:[open_randfile(2)])
 btn_subj[4].config(command=lambda:[open_randfile(3)])
-
+'''
 #frame4>> 4번째 퀴즈 진행 화면 만들기
 f4l = Label(frame4,text = "힌트",font =('맑은 고딕', 18,'bold'), fg ="white",bg = "forestgreen")
 f4l.pack(pady=40) # 첫 라벨 구현
@@ -321,6 +326,11 @@ def button_hint(number):
     btn_hint[number].configure(text='X', state='disable', width=10, bd=0, height=2)
     hint_1.configure(text=s)
 
+for i in range(1,11):
+    btn_hint[i].config(command=lambda x=i:[button_hint(x)])
+
+    '''
+
 #얘도 for문으로 넣어봤는데 계속.. 이상하게 나옵니다..... 깔끔하게 적고싶은디..
 #변수문제인듯합니다 for문 돌리면 숫자 하나에만 적용되네요..
 btn_hint[1].config(command=lambda:[button_hint(1)])
@@ -334,6 +344,17 @@ btn_hint[8].config(command=lambda:[button_hint(8)])
 btn_hint[9].config(command=lambda:[button_hint(9)])
 btn_hint[10].config(command=lambda:[button_hint(10)])
 
+'''
+'''
+sco=3000
+rankd = {'123':0,'김':2999,'정':2998,'최':2997,'편':2996}
+if ans_in==hint[0]:
+    if idt in rankd:
+        if rankd[idt]<sco:
+            rankd[idt]=sco
+    else:
+        rankd[idt]=sco
+'''
 
 openFrame(frame1)
 root.mainloop()
