@@ -68,21 +68,16 @@ def pdSame(a,b):
 #Member 객체 생성
 mem = Member()
 
-#id와 password가 완벽히 조건 수행했을 때, Member 객체를 생성하기 위해 따로 저장하는 변수를 둔다.
-playingid = 0
-
-
 #아이디, 비밀번호 파일에 추가하기
 def a_member(idcheck, pdcheck, m_id, m_pd):
-    global playingid
-    playingid= 0
     
     if(idcheck==1) and(pdcheck==1):
         playingid = m_id
         f=open('first.txt','a+')
-        f.write('{} {}\n'.format(m_id, m_pd))
+        f.write('{} {} {} {}\n'.format(m_id, m_pd, 0 ,0))
         f.close()
-        openFrame(frame3)
+        prod.config(command=lambda:[messagebox.showinfo('회원가입 완료','홈에서 다시 로그인해주세요.')])
+        openFrame(frame1)
     elif(idcheck==1) and (pdcheck!=1):
         prod.config(command=lambda:[messagebox.showinfo('회원가입 오류','비밀번호 일치 여부를 확인해주세요.')])
     else:
