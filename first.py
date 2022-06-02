@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 import time
+import os
 
 
 #창 생성하기
@@ -42,6 +43,7 @@ class User:
 
 
 user_list = []
+
 
 
 #파일에 저장된 사용자 객체들 mem_list에 추가하는 함수
@@ -111,7 +113,7 @@ def a_member(idcheck, pdcheck, m_id, m_pd):
     if(idcheck==1) and(pdcheck==1):
         playing_id = m_id
         f=open('first.txt','a+')
-        f.write('{} {} {} {}\n'.format(m_id, m_pd, 0, 0))
+        f.write('{} {} {} {}\n'.format(m_id, m_pd, 0, 10000000))
         f.close()
         openFrame(frame3)
     elif(idcheck==1) and (pdcheck!=1):
@@ -130,7 +132,7 @@ def isExist(id_one, pd_one):
     k=0
     
     while l:
-        mem_id, mem_pd, score, time=l.split()
+        mem_id, mem_pd, x, y=l.split()
           
         if (mem_id==id_one):
             if(mem_pd==pd_one):
@@ -188,7 +190,7 @@ frame1_1.pack(anchor="center", pady=30)
 
 #id 칸
 idl = Label(frame1_1)
-idl.config(text="아이디 : ", bg = 'white')
+idl.config(text="아이디 : ",font=('맑은 고딕', 13), bg = 'white')
 idl.grid(row=0,column=0, padx=10, pady=10)
 
 idt = Entry(frame1_1)
@@ -197,7 +199,7 @@ idt.grid(row=0,column=1, padx=10, pady=10)
 
 #비밀번호 칸
 pd = Label(frame1_1)
-pd.config(text="비밀번호 : ", bg = 'white')
+pd.config(text="비밀번호 : ",font=('맑은 고딕', 13), bg = 'white')
 pd.grid(row=1,column=0, padx=10, pady=10)
 
 pdt = Entry(frame1_1)
@@ -206,16 +208,16 @@ pdt.grid(row=1,column=1, padx=10, pady=10)
 
 #시작칸 만들기 > 이후에 이벤트 처리해서 클릭, 엔터 두개 처리해야 함
 stl = Button(frame1)
-stl.config(text = "시작해볼까요?", command=lambda:[isExist(idt.get(), pdt.get())])
-stl.config(width = 20)
+stl.config(text = "시작해볼까요?",font=('맑은 고딕', 13), command=lambda:[isExist(idt.get(), pdt.get())])
 stl.pack(anchor="center", pady=10)
 
 
 #회원가입 만들기
 gol = Button(frame1)
-gol.config(text = "회원가입")
+gol.config(text = "회원가입", font=('맑은 고딕', 13))
 gol.config(command = lambda:[openFrame(frame2)])
 gol.pack(anchor="center", pady=10)
+
 
 
 
@@ -228,7 +230,7 @@ tl2.pack(pady=40)
 
 #id, 비밀번호, 비밀번호 확인 넣을 보조 프레임
 frame2_1 = Frame(frame2, bg = 'white')
-frame2_1.pack(anchor="center",pady=5)
+frame2_1.pack(anchor="center",pady=15)
 
 idl2 = Label(frame2_1)
 idl2.config(text="아이디",font=('맑은 고딕', 13))
@@ -240,7 +242,7 @@ idlt.grid(row=0,column=1, padx=10, pady=10)
 
 #아이디 중복확인 버튼
 twiceid = Button(frame2_1)
-twiceid.config(text = "ID 중복확인", font=('맑은 고딕', 10), command=lambda:[twiceCheck(idlt.get())])
+twiceid.config(text = "ID 중복확인", font=('맑은 고딕', 12), command=lambda:[twiceCheck(idlt.get())])
 twiceid.grid(row=0,column=2, padx=20, pady=10)
 
 
@@ -262,25 +264,26 @@ pdte.grid(row=2,column=1, padx=10, pady=10)
 
 #비밀번호 일치확인 버튼 
 twicepd = Button(frame2_1)
-twicepd.config(text = "비밀번호 일치 확인", font=('맑은 고딕', 10),command=lambda:[pdSame(pdt2.get(), pdte.get())])
+twicepd.config(text = "비밀번호 일치 확인", font=('맑은 고딕', 12),command=lambda:[pdSame(pdt2.get(), pdte.get())])
 twicepd.grid(row=2,column=2, padx=20, pady=10)
 
 
 #이전 홈화면으로 돌아가기
 gohome = Button(frame2)
 gohome.config(text="🏠 이전 화면으로 돌아가기 🏠",font=('맑은 고딕', 13), command=lambda:[openFrame(frame1)])
-gohome.pack(pady=25)
+gohome.pack(pady=20)
 
 
 #아이디 중복체크, 비밀번호 일치까지 했을 때 생성하기 > 메시지 박스 함수 만들기
 prod = Button(frame2)
 prod.config(text = "생성하기", font=('맑은 고딕', 13))
-prod.pack(pady=10)
+prod.pack()
 prod.config(command=lambda:[a_member(idcheck, pdcheck, idlt.get(), pdt2.get())])
 
 
 #원래 first.txt 파일에 있던 아이디, 점수, 시간 받아옴        
 fill()
+
 
 
 
@@ -292,7 +295,8 @@ from random import randint
 
 #정답 저장할 변수
 answer=''
-#힌트 저장할 변
+
+#힌트 저장할 변수
 hint=[0,]
 
 start = 0
@@ -340,6 +344,9 @@ for i in range(1,5):
     btn_subj[i].config(command=lambda z=i:[open_randfile(z-1)])
 
 
+
+
+
 #frame4>> 4번째 퀴즈 진행 화면 만들기
 f4l = Label(frame4,text = "힌트",font =('맑은 고딕', 18,'bold'), fg ="white",bg = "forestgreen")
 f4l.pack(pady=40) # 첫 라벨 구현
@@ -367,14 +374,75 @@ frame4_2 = Frame(frame4, background = 'white') #버튼 grid로 배치하기 위�
 frame4_2.pack(anchor="center", pady=10)
 
 
+
+#현재 유저 파일에서 몇 번째에 있는지 확인하기
+def whereuser():
+    global playing_id
+    
+    f= open('first.txt', 'r')
+    l = f.readline()
+    rst = 0 
+
+    while l:
+        a,b,c,d = l.split()
+        l = f.readline()
+        if(a == playing_id):
+            break
+        rst= rst+1
+
+    f.close()
+    return rst
+
+
+#실행한 유저 점수, 시간대 파일 수정하기
+def amenduser(newscore, newtime, rst_where):
+    global playing_id
+    
+    f = open('first.txt', 'r')
+    new_text_content = ''
+    
+    lines = f.readlines()
+
+    for s,h in enumerate(lines):
+        if s== rst_where:
+            a,b,c,d = h.split()
+            new_string= a+' '+b+' '+str(newscore)+' '+str(newtime)
+        else:
+            new_string = h.rstrip()
+
+        if new_string:
+            new_text_content +=new_string+'\n'
+        else:
+            new_text_content += '\n'
+    f.close()
+    f1=open('first.txt', 'w')
+    f1.write(new_text_content)
+    f1.close()
+
+
+#실행하는 아이디에 해당하는 User 객체에 점수와 시간 업데이트
+def updatelist():
+    for i in user_list:
+        if(i.getName()==playing_id): #현재 게임하고 있는 아이디 찾으면
+            ans = whereuser()
+            if(int(i.getScore())<score): #기존 점수보다 점수 높을때 -> 점수랑 시간 업데이트
+                i.setInfo(playing_id, score, rst_time)
+                amenduser(score, rst_time, ans)
+            elif(i.getScore()==score and float(i.getTime)>rst_time): #기존 점수랑 같으나 더 빨리 풀었을때 -> 시간만 업데이트
+                i.setInfo(playing_id, i.getScore(), rst_time)
+                amenduser(score, rst_time, ans)
+
+
+
+
 #정답 입력 칸
-ans_l = Label(frame4_2, text="정답 : ", font=('맑은 고딕',12), bg = 'white')
+ans_l = Label(frame4_2, text="정답 : ", font=('맑은 고딕',13), bg = 'white')
 ans_l.grid(row=0,column=0, padx=10)
 
 ans_in = Entry(frame4_2)
 ans_in.grid(row=0, column=1,padx=10)
 
-btn_ans = Button(frame4_2, text="확인", font=('맑은 고딕', 12))
+btn_ans = Button(frame4_2, text="확인", font=('맑은 고딕', 13))
 btn_ans.grid(row=0, column=2)
 btn_ans.config(command =lambda: [verify_answer()])
 
@@ -384,13 +452,13 @@ btn_ans.config(command =lambda: [verify_answer()])
 frame4_3 = Frame(frame4, bg = 'white') 
 frame4_3.pack(anchor="center", pady=10)
 
-hint_1=Label(frame4_3, text="힌트 내용", font=('맑은 고딕',12), bg = 'white')
+hint_1=Label(frame4_3, text="힌트 내용", font=('맑은 고딕',13), bg = 'white')
 hint_1.grid(row=0, column=0)
 
 
 
-#기본 점수는 100점. 힌트 하나 볼때마다 10점씩 차감
-score = 100
+#기본 점수는 110점. 힌트 하나 볼때마다 10점씩 차감
+score = 110
 
 
 #힌트 버튼 1~10 눌렀을 때 실행되는 함수
@@ -408,10 +476,12 @@ for i in range(1,11):
     btn_hint[i].config(command=lambda x=i:[button_hint(x)])
 
 
+
 ranking = 0
 score_info = ''
 
-# 사용자의 랭킹 찾는 함수
+
+# 사용자의 랭킹 찾기
 def find_ranking():
     global ranking
     f=open('first.txt','r')
@@ -425,58 +495,99 @@ def find_ranking():
         if(a==playing_id):
             break
 
-    print(playing_id, score)
     f.close()
 
-#실패 화면
+
+#점수 기준 내림차순으로 정렬된 first.txt 파일에서 상위 5위 출력하기
+def print_five(frame):
+    l1 = Label(frame, text="랭킹", font = ('맑은 고딕', 14),bg = "white")
+    l1.pack(pady=5)
+
+    f=open('first.txt','r')
+    for i in range(1,6):
+        l=f.readline()        
+        a, b, c, d=l.split()
+        
+        s = str(i)+"위 : "+a+", "+str(c)+"점"
+        l2 = Label(frame, text = s, font=('맑은 고딕', 13),bg="white")
+        l2.pack()
+
+    f.close()
+        
+        
+
+#실패 화면 - 정답 알려주기
 def fail_screen():
-    f62=Label(frame6, text="정답: "+answer, font =('맑은 고딕', 12,'bold'), bg = "white")
-    f62.pack(pady=20)
+    f62=Label(frame6, text="정답: "+answer, font =('맑은 고딕', 15, 'bold'), bg = "white")
+    f62.pack(pady=10)
+
  
-#성공 화
+#성공 화면 - 점수와 랭킹 알려주기
 def success_screen():
     #현재 게임진행하는 유저의 랭킹 찾기 -> 점수 내림차순으로 정렬되었다고 가정.
     find_ranking()
     score_info = "당신의 점수 : "+str(score)+"점, "+str(ranking)+"위"
-    f5l2 = Label(frame5, text=score_info, font = ('맑은 고딕',12),fg = "black", bg = "white")
-    f5l2.pack(pady=20)
+    f5l2 = Label(frame5, text=score_info, font = ('맑은 고딕',15, 'bold'),fg = "black", bg = "yellow")
+    f5l2.pack(pady=15)
+
+
+
+#다시 도전하기
+def retrying():
+    root.destroy()
+    os.system('first.py')
+
+#종료하기
+def closing():
+    exit(1)
+
+
+#다시 도전하기, 종료하기 버튼 배치하기
+def retry_finish(frame1):
+    frame_last = Frame(frame1, background = 'white') #버튼 두개 가로로 넣을 보조 프레임
+    
+    retry_btn=Button(frame_last, text="다시 도전하기", font=('맑은 고딕',12))
+    retry_btn.config(command=lambda x=i:[retrying()])
+    retry_btn.grid(row=0,column=0,padx=10,pady=30)
+
+    finish_btn=Button(frame_last, text="종료하기", font=('맑은 고딕',12))
+    finish_btn.config(command=lambda x=i:[closing()])
+    finish_btn.grid(row=0,column=1,padx=10,pady=30)
+
+    frame_last.pack()
 
 
 #확인 버튼 눌렀을 때 실행되는 함수
 def verify_answer():
-    global score, ans_in, answer, end
+    global score, ans_in, answer, end, rst_time, start
     global ranking, score_info
 
     if(score==0 and answer!=ans_in.get()): #힌트 다 썼고 정답이 아닐때
         end = time.time()
+        rst_time = end-start
         fail_screen()
+        print_five(frame6)
+        retry_finish(frame6)
+        updatelist()
         openFrame(frame6)
     elif(answer!=ans_in.get()): #힌트 덜썼는데 정답이 아닐때
         messagebox.showinfo('아깝네요','정답이 아닙니다!')
     elif(answer==ans_in.get()): #힌트 다 안쓰고 정답일때
         end = time.time()
+        rst_time = end-start
         success_screen()
+        print_five(frame5)
+        retry_finish(frame5)
+        updatelist()
         openFrame(frame5)
-
-
-rst_time = end-start #총 걸린 시간
-
-
-
-#실행하는 아이디에 해당하는 User 객체에 점수와 시간 업데이트
-for i in user_list:
-    if(i.getName()==playing_id): #현재 게임하고 있는 아이디 찾으면
-        if(i.getScore()<score): #기존 점수보다 점수 높을때 -> 점수랑 시간 업데이트
-            i.setInfo(playing_id, score, rst_time)
-        elif(i.getScore()==score and i.getTime>rst_time): #기존 점수랑 같으나 더 빨리 풀었을때 -> 시간만 업데이트
-            i.setInfo(playing_id, i.getScore(), rst_time)
-
     
         
 
 #frame5>> 정답 화면 만들기
 f5l = Label(frame5,text = "으쌰 열고개 등반 성공!",font =('맑은 고딕', 18,'bold'), fg ="white",bg = "forestgreen")
 f5l.pack(pady=40) #정답 축하 메세지
+
+
 
 
 #frame6>> 실패 화면 만들기
@@ -486,4 +597,3 @@ f6l.pack(pady=40) #정답 축하 메세지
 
 openFrame(frame1)
 root.mainloop()
-
