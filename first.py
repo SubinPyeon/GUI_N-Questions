@@ -111,7 +111,7 @@ def a_member(idcheck, pdcheck, m_id, m_pd):
     if(idcheck==1) and(pdcheck==1):
         playing_id = m_id
         f=open('first.txt','a+')
-        f.write('{} {}\n'.format(m_id, m_pd))
+        f.write('{} {} {} {}\n'.format(m_id, m_pd, 0, 0))
         f.close()
         openFrame(frame3)
     elif(idcheck==1) and (pdcheck!=1):
@@ -149,10 +149,6 @@ def isExist(id_one, pd_one):
         
     f.close()
 
-
-
-#원래 first.txt 파일에 있던 아이디, 점수, 시간 받아옴        
-fill()
 
     
 #화면 프레임 만들기
@@ -283,6 +279,8 @@ prod.pack(pady=10)
 prod.config(command=lambda:[a_member(idcheck, pdcheck, idlt.get(), pdt2.get())])
 
 
+#원래 first.txt 파일에 있던 아이디, 점수, 시간 받아옴        
+fill()
 
 
 
@@ -311,6 +309,8 @@ def open_randfile(number):
     answer=answer.strip()
     for i in range(1,11):
         hint.append(fi.readline())
+    #원래 first.txt 파일에 있던 아이디, 점수, 시간 받아옴        
+    fill()
     start = time.time() #주제 선택할 때의 시간 기록. 게임 시작하는 시간.
     openFrame(frame4)
     
