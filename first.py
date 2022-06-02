@@ -181,6 +181,12 @@ frame6.grid(row=0, column=0, sticky=W+E+N+S)
 #frame1 >> 첫 화면 만들기
 #레이블 만들기
 tl = Label(frame1)
+
+#배경
+img=PhotoImage(file='mountain.png')
+imgCtl=Label(frame1, bg='white', image=img)
+imgCtl.place(x=-2,y=300)
+
 tl.config(text="⛰으쌰 열고개⛰", font=('맑은 고딕', 20,'bold'))
 tl['fg']='white'
 tl['bg']='forestgreen'
