@@ -408,18 +408,54 @@ for i in range(1,11):
     btn_hint[i].config(command=lambda x=i:[button_hint(x)])
 
 
+ranking = 0
+score_info = ''
+
+# 사용자의 랭킹 찾는 함수
+def find_ranking():
+    global ranking
+    f=open('first.txt','r')
+    l=f.readline()
+    ranking = 0
+    
+    while l:
+        a,b, c, d=l.split()
+        l=f.readline()
+        ranking+=1
+        if(a==playing_id):
+            break
+
+    print(playing_id, score)
+    f.close()
+
+#실패 화면
+def fail_screen():
+    f62=Label(frame6, text="정답: "+answer, font =('맑은 고딕', 12,'bold'), bg = "white")
+    f62.pack(pady=20)
+ 
+#성공 화
+def success_screen():
+    #현재 게임진행하는 유저의 랭킹 찾기 -> 점수 내림차순으로 정렬되었다고 가정.
+    find_ranking()
+    score_info = "당신의 점수 : "+str(score)+"점, "+str(ranking)+"위"
+    f5l2 = Label(frame5, text=score_info, font = ('맑은 고딕',12),fg = "black", bg = "white")
+    f5l2.pack(pady=20)
+
 
 #확인 버튼 눌렀을 때 실행되는 함수
 def verify_answer():
     global score, ans_in, answer, end
+    global ranking, score_info
 
     if(score==0 and answer!=ans_in.get()): #힌트 다 썼고 정답이 아닐때
         end = time.time()
+        fail_screen()
         openFrame(frame6)
     elif(answer!=ans_in.get()): #힌트 덜썼는데 정답이 아닐때
         messagebox.showinfo('아깝네요','정답이 아닙니다!')
     elif(answer==ans_in.get()): #힌트 다 안쓰고 정답일때
         end = time.time()
+        success_screen()
         openFrame(frame5)
 
 
@@ -435,12 +471,13 @@ for i in user_list:
         elif(i.getScore()==score and i.getTime>rst_time): #기존 점수랑 같으나 더 빨리 풀었을때 -> 시간만 업데이트
             i.setInfo(playing_id, i.getScore(), rst_time)
 
-
+    
         
 
 #frame5>> 정답 화면 만들기
 f5l = Label(frame5,text = "으쌰 열고개 등반 성공!",font =('맑은 고딕', 18,'bold'), fg ="white",bg = "forestgreen")
 f5l.pack(pady=40) #정답 축하 메세지
+
 
 #frame6>> 실패 화면 만들기
 f6l = Label(frame6,text = "으쌰 열고개 등반 실패ㅠㅠ",font =('맑은 고딕', 18,'bold'), fg ="white",bg = "forestgreen")
