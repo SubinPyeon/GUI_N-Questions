@@ -35,6 +35,9 @@ class User:
 
     def getScore(self):
         return self.__score
+
+    def getTime(self):
+        return self.__time
     
     def setInfo(self, name, score, time):
         self.__name = name
@@ -281,9 +284,6 @@ prod.pack()
 prod.config(command=lambda:[a_member(idcheck, pdcheck, idlt.get(), pdt2.get())])
 
 
-#원래 first.txt 파일에 있던 아이디, 점수, 시간 받아옴        
-fill()
-
 
 
 
@@ -422,6 +422,7 @@ def amenduser(newscore, newtime, rst_where):
 
 #실행하는 아이디에 해당하는 User 객체에 점수와 시간 업데이트
 def updatelist():
+    global playing_id, score, rst_time
     for i in user_list:
         if(i.getName()==playing_id): #현재 게임하고 있는 아이디 찾으면
             ans = whereuser()
@@ -431,6 +432,13 @@ def updatelist():
             elif(i.getScore()==score and float(i.getTime)>rst_time): #기존 점수랑 같으나 더 빨리 풀었을때 -> 시간만 업데이트
                 i.setInfo(playing_id, i.getScore(), rst_time)
                 amenduser(score, rst_time, ans)
+                
+    user_list.append(User(playing_id, score, rst_time))
+    #원래 first.txt 파일에 있던 아이디, 점수, 시간 받아옴        
+    fill()
+    
+
+    
 
 
 
@@ -461,6 +469,7 @@ hint_1.grid(row=0, column=0)
 score = 110
 
 
+
 #힌트 버튼 1~10 눌렀을 때 실행되는 함수
 def button_hint(number):
     global score
@@ -476,43 +485,36 @@ for i in range(1,11):
     btn_hint[i].config(command=lambda x=i:[button_hint(x)])
 
 
-
 ranking = 0
 score_info = ''
 
 
 # 사용자의 랭킹 찾기
 def find_ranking():
-    global ranking
-    f=open('first.txt','r')
-    l=f.readline()
-    ranking = 0
+    global ranking, playing_id, score
     
-    while l:
-        a,b, c, d=l.split()
-        l=f.readline()
-        ranking+=1
-        if(a==playing_id):
+    for i in user_list:
+        if(i.getName()==playing_id and i.getScore==score):
+            ranking+=1
             break
 
-    f.close()
+    for i in user_list:
+        print(i.getName(), i.getScore(), i.getTime())
 
 
-#점수 기준 내림차순으로 정렬된 first.txt 파일에서 상위 5위 출력하기
+
+#상위 5위 출력하기
 def print_five(frame):
+    user_list.sort(reverse=True,key=lambda user_list:(user_list.getScore(),-float(user_list.getTime())))
+    
     l1 = Label(frame, text="랭킹", font = ('맑은 고딕', 14),bg = "white")
     l1.pack(pady=5)
 
-    f=open('first.txt','r')
-    for i in range(1,6):
-        l=f.readline()        
-        a, b, c, d=l.split()
-        
-        s = str(i)+"위 : "+a+", "+str(c)+"점"
+    for i in range(0, 5):
+        s = str(i+1)+"위 : "+user_list[i].getName()+", "+str(user_list[i].getScore())+"점"
         l2 = Label(frame, text = s, font=('맑은 고딕', 13),bg="white")
         l2.pack()
 
-    f.close()
         
         
 
@@ -580,7 +582,7 @@ def verify_answer():
         retry_finish(frame5)
         updatelist()
         openFrame(frame5)
-    
+
         
 
 #frame5>> 정답 화면 만들기
@@ -593,6 +595,7 @@ f5l.pack(pady=40) #정답 축하 메세지
 #frame6>> 실패 화면 만들기
 f6l = Label(frame6,text = "으쌰 열고개 등반 실패ㅠㅠ",font =('맑은 고딕', 18,'bold'), fg ="white",bg = "forestgreen")
 f6l.pack(pady=40) #정답 축하 메세지
+
 
 
 openFrame(frame1)
