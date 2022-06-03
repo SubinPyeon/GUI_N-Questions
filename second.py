@@ -442,8 +442,7 @@ def updatelist():
     user_list.clear()
     fill()
     user_list.sort(reverse=True,key=lambda user_list:(user_list.getScore(),-float(user_list.getTime())))
-    for i in user_list:
-        print(i.getName(), i.getScore())
+
 
 
 #정답 입력 칸
@@ -505,11 +504,7 @@ def find_ranking():
 
 #상위 5위 출력하기
 def print_five(frame):
-
-    print("")
-    for i in user_list:
-        print(i.getName(), i.getScore())
-    
+   
     l1 = Label(frame, text="랭킹", font = ('맑은 고딕', 14),bg = "white")
     l1.pack(pady=5)
 
